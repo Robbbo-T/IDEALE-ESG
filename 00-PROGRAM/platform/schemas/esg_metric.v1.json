@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ideale-esg.org/schemas/esg_metric.v1.json",
+  "title": "ESG Metric",
+  "description": "Schema for Environmental, Social, and Governance (ESG) metrics",
+  "type": "object",
+  "required": [
+    "id",
+    "metricName",
+    "category",
+    "value",
+    "unit",
+    "reportingPeriod",
+    "companyId"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the ESG metric",
+      "pattern": "^[a-zA-Z0-9-_]+$",
+      "examples": ["esg-metric-001", "carbon-footprint-2024-q1"]
+    },
+    "metricName": {
+      "type": "string",
+      "description": "Name of the ESG metric",
+      "minLength": 1,
+      "maxLength": 255,
+      "examples": ["Carbon Emissions", "Water Consumption", "Employee Diversity"]
+    },
+    "category": {
+      "type": "string",
+      "description": "ESG category: Environmental, Social, or Governance",
+      "enum": ["Environmental", "Social", "Governance"],
+      "examples": ["Environmental"]
+    },
+    "subcategory": {
+      "type": "string",
+      "description": "Specific subcategory of the ESG metric",
+      "examples": ["Climate Change", "Labor Practices", "Board Composition"]
+    },
+    "value": {
+      "type": "number",
+      "description": "Numerical value of the metric",
+      "examples": [1250.5, 45.2]
+    },
+    "unit": {
+      "type": "string",
+      "description": "Unit of measurement for the metric",
+      "examples": ["tonnes CO2e", "cubic meters", "percentage", "count"]
+    },
+    "reportingPeriod": {
+      "type": "object",
+      "description": "Time period for which the metric is reported",
+      "required": ["startDate", "endDate"],
+      "properties": {
+        "startDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Start date of the reporting period (ISO 8601 format)",
+          "examples": ["2024-01-01"]
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date",
+          "description": "End date of the reporting period (ISO 8601 format)",
+          "examples": ["2024-03-31"]
+        }
+      }
+    },
+    "companyId": {
+      "type": "string",
+      "description": "Reference to the company ID",
+      "pattern": "^[a-zA-Z0-9-_]+$",
+      "examples": ["company-001", "acme-corp"]
+    },
+    "dataSource": {
+      "type": "string",
+      "description": "Source of the metric data",
+      "examples": ["Internal Systems", "Third-Party Audit", "Self-Reported"]
+    },
+    "verificationStatus": {
+      "type": "string",
+      "description": "Verification status of the metric",
+      "enum": ["Unverified", "Internal Review", "External Audit", "Certified"],
+      "default": "Unverified",
+      "examples": ["External Audit"]
+    },
+    "targetValue": {
+      "type": "number",
+      "description": "Target or goal value for the metric",
+      "examples": [1000.0, 50.0]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes or context about the metric",
+      "maxLength": 1000
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata about the metric",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the metric was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the metric was last updated"
+        },
+        "createdBy": {
+          "type": "string",
+          "description": "User or system that created the metric"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

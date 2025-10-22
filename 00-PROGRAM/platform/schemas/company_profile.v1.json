@@ -1,0 +1,245 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ideale-esg.org/schemas/company_profile.v1.json",
+  "title": "Company Profile",
+  "description": "Schema for company profile information in the IDEALE-ESG system",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "industry",
+    "country"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the company",
+      "pattern": "^[a-zA-Z0-9-_]+$",
+      "examples": ["company-001", "acme-corp"]
+    },
+    "name": {
+      "type": "string",
+      "description": "Legal name of the company",
+      "minLength": 1,
+      "maxLength": 500,
+      "examples": ["Acme Corporation", "Green Energy Solutions Ltd."]
+    },
+    "tradingName": {
+      "type": "string",
+      "description": "Trading or brand name if different from legal name",
+      "maxLength": 500
+    },
+    "industry": {
+      "type": "string",
+      "description": "Primary industry sector",
+      "examples": ["Energy", "Manufacturing", "Technology", "Finance", "Healthcare"]
+    },
+    "subIndustry": {
+      "type": "string",
+      "description": "Specific sub-industry classification",
+      "examples": ["Renewable Energy", "Aerospace Manufacturing", "Software Development"]
+    },
+    "country": {
+      "type": "string",
+      "description": "Primary country of operation (ISO 3166-1 alpha-2 code)",
+      "pattern": "^[A-Z]{2}$",
+      "examples": ["US", "GB", "DE", "FR", "JP"]
+    },
+    "headquarters": {
+      "type": "object",
+      "description": "Headquarters location details",
+      "properties": {
+        "address": {
+          "type": "string",
+          "description": "Street address",
+          "maxLength": 500
+        },
+        "city": {
+          "type": "string",
+          "description": "City name",
+          "maxLength": 100
+        },
+        "state": {
+          "type": "string",
+          "description": "State or province",
+          "maxLength": 100
+        },
+        "postalCode": {
+          "type": "string",
+          "description": "Postal or ZIP code",
+          "maxLength": 20
+        },
+        "country": {
+          "type": "string",
+          "description": "Country (ISO 3166-1 alpha-2 code)",
+          "pattern": "^[A-Z]{2}$"
+        }
+      }
+    },
+    "identifiers": {
+      "type": "object",
+      "description": "Various business identifiers",
+      "properties": {
+        "taxId": {
+          "type": "string",
+          "description": "Tax identification number"
+        },
+        "lei": {
+          "type": "string",
+          "description": "Legal Entity Identifier (ISO 17442)",
+          "pattern": "^[A-Z0-9]{20}$"
+        },
+        "ticker": {
+          "type": "string",
+          "description": "Stock ticker symbol if publicly traded",
+          "maxLength": 10
+        },
+        "isin": {
+          "type": "string",
+          "description": "International Securities Identification Number",
+          "pattern": "^[A-Z]{2}[A-Z0-9]{10}$"
+        }
+      }
+    },
+    "companySize": {
+      "type": "string",
+      "description": "Size classification of the company",
+      "enum": ["Small", "Medium", "Large", "Enterprise"],
+      "examples": ["Large"]
+    },
+    "employeeCount": {
+      "type": "integer",
+      "description": "Total number of employees",
+      "minimum": 0,
+      "examples": [5000, 250]
+    },
+    "foundedYear": {
+      "type": "integer",
+      "description": "Year the company was founded",
+      "minimum": 1800,
+      "maximum": 2100,
+      "examples": [1995, 2010]
+    },
+    "website": {
+      "type": "string",
+      "description": "Company website URL",
+      "format": "uri",
+      "examples": ["https://www.example.com"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Brief description of the company and its operations",
+      "maxLength": 2000
+    },
+    "esgReporting": {
+      "type": "object",
+      "description": "ESG reporting information",
+      "properties": {
+        "frameworks": {
+          "type": "array",
+          "description": "ESG reporting frameworks used",
+          "items": {
+            "type": "string",
+            "enum": ["GRI", "SASB", "TCFD", "CDP", "DJSI", "UNGC", "IIRC"]
+          },
+          "examples": [["GRI", "TCFD"]]
+        },
+        "reportingCycle": {
+          "type": "string",
+          "description": "Frequency of ESG reporting",
+          "enum": ["Annual", "Semi-Annual", "Quarterly", "Monthly"],
+          "examples": ["Annual"]
+        },
+        "lastReportDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of the last ESG report"
+        }
+      }
+    },
+    "certifications": {
+      "type": "array",
+      "description": "ESG and sustainability certifications",
+      "items": {
+        "type": "object",
+        "required": ["name", "issuedDate"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the certification",
+            "examples": ["ISO 14001", "B Corp Certification", "LEED Certified"]
+          },
+          "issuedBy": {
+            "type": "string",
+            "description": "Organization that issued the certification"
+          },
+          "issuedDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Date the certification was issued"
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Expiry date of the certification"
+          }
+        }
+      }
+    },
+    "contacts": {
+      "type": "array",
+      "description": "Key contact persons",
+      "items": {
+        "type": "object",
+        "required": ["name", "role"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Contact person's name"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role or title",
+            "examples": ["ESG Manager", "Sustainability Officer", "CFO"]
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email address"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number"
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "System metadata",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the profile was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the profile was last updated"
+        },
+        "createdBy": {
+          "type": "string",
+          "description": "User or system that created the profile"
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of the company profile",
+          "enum": ["Active", "Inactive", "Pending", "Archived"],
+          "default": "Active"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
