@@ -1,0 +1,135 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ideale-esg.org/schemas/esg/KPI.v1.json",
+  "title": "ESG KPI (Key Performance Indicator)",
+  "description": "Schema for ESG Key Performance Indicators - versioned contract for KPI data",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "category",
+    "value",
+    "unit",
+    "reportingPeriod"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the KPI",
+      "pattern": "^[a-zA-Z0-9-_]+$",
+      "examples": ["kpi-ghg-scope1-2024-q1", "kpi-water-intensity-001"]
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the KPI",
+      "minLength": 1,
+      "maxLength": 255,
+      "examples": ["GHG Emissions Scope 1", "Water Intensity", "Board Gender Diversity"]
+    },
+    "category": {
+      "type": "string",
+      "description": "ESG category: Environmental, Social, or Governance",
+      "enum": ["Environmental", "Social", "Governance"],
+      "examples": ["Environmental"]
+    },
+    "subcategory": {
+      "type": "string",
+      "description": "Specific subcategory within the ESG category",
+      "examples": ["Climate & Energy", "Human Rights", "Ethics & Compliance"]
+    },
+    "value": {
+      "type": "number",
+      "description": "Calculated KPI value",
+      "examples": [1250.5, 0.95, 42.3]
+    },
+    "unit": {
+      "type": "string",
+      "description": "Unit of measurement for the KPI",
+      "examples": ["tonnes CO2e", "m³/unit production", "percentage", "count"]
+    },
+    "reportingPeriod": {
+      "type": "object",
+      "description": "Time period for which the KPI is calculated",
+      "required": ["startDate", "endDate"],
+      "properties": {
+        "startDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Start date of the reporting period (ISO 8601)",
+          "examples": ["2024-01-01"]
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date",
+          "description": "End date of the reporting period (ISO 8601)",
+          "examples": ["2024-12-31"]
+        }
+      }
+    },
+    "companyId": {
+      "type": "string",
+      "description": "Reference to the company or entity ID",
+      "pattern": "^[a-zA-Z0-9-_]+$"
+    },
+    "framework": {
+      "type": "string",
+      "description": "ESG reporting framework or standard",
+      "enum": ["GRI", "SASB", "CSRD", "TCFD", "CDP", "Custom"],
+      "examples": ["GRI"]
+    },
+    "frameworkCode": {
+      "type": "string",
+      "description": "Specific framework disclosure code or reference",
+      "examples": ["GRI 305-1", "SASB-EM-GHG-01", "ESRS E1-5"]
+    },
+    "targetValue": {
+      "type": "number",
+      "description": "Target or goal value for the KPI",
+      "examples": [1000.0, 50.0]
+    },
+    "baselineValue": {
+      "type": "number",
+      "description": "Baseline value for comparison",
+      "examples": [1500.0]
+    },
+    "baselineYear": {
+      "type": "integer",
+      "description": "Year of the baseline measurement",
+      "minimum": 2000,
+      "maximum": 2100,
+      "examples": [2020]
+    },
+    "calculationMethod": {
+      "type": "string",
+      "description": "Method or formula used to calculate the KPI",
+      "maxLength": 500
+    },
+    "assuranceLevel": {
+      "type": "string",
+      "description": "Level of external assurance obtained",
+      "enum": ["None", "Limited", "Reasonable"],
+      "default": "None"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata about the KPI",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the KPI was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the KPI was last updated"
+        },
+        "createdBy": {
+          "type": "string",
+          "description": "User or system that created the KPI"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

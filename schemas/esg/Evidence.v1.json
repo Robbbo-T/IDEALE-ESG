@@ -1,0 +1,189 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ideale-esg.org/schemas/esg/Evidence.v1.json",
+  "title": "ESG Evidence",
+  "description": "Schema for ESG evidence and supporting documentation - versioned contract for audit trails",
+  "type": "object",
+  "required": [
+    "id",
+    "type",
+    "source",
+    "collectedAt",
+    "relatedKPIs"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the evidence item",
+      "pattern": "^[a-zA-Z0-9-_]+$",
+      "examples": ["evidence-001", "audit-report-2024-q1"]
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of evidence",
+      "enum": [
+        "Document",
+        "Measurement",
+        "Certificate",
+        "Audit Report",
+        "Invoice",
+        "Sensor Data",
+        "Survey",
+        "Interview",
+        "Photo",
+        "Video",
+        "Other"
+      ],
+      "examples": ["Document"]
+    },
+    "source": {
+      "type": "string",
+      "description": "Source of the evidence",
+      "minLength": 1,
+      "maxLength": 500,
+      "examples": ["Internal Monitoring System", "Third-Party Auditor", "Supplier Declaration"]
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the evidence",
+      "maxLength": 2000
+    },
+    "collectedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the evidence was collected (ISO 8601)",
+      "examples": ["2024-01-15T10:30:00Z"]
+    },
+    "collectedBy": {
+      "type": "string",
+      "description": "Person or system that collected the evidence",
+      "examples": ["john.doe@example.com", "automated-sensor-01"]
+    },
+    "relatedKPIs": {
+      "type": "array",
+      "description": "List of KPI IDs this evidence supports",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9-_]+$"
+      },
+      "minItems": 1,
+      "examples": [["kpi-ghg-scope1-2024-q1", "kpi-energy-consumption-001"]]
+    },
+    "relatedMetrics": {
+      "type": "array",
+      "description": "List of metric IDs this evidence supports",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9-_]+$"
+      }
+    },
+    "companyId": {
+      "type": "string",
+      "description": "Reference to the company or entity ID",
+      "pattern": "^[a-zA-Z0-9-_]+$"
+    },
+    "fileReference": {
+      "type": "object",
+      "description": "Reference to the actual file or document",
+      "properties": {
+        "fileName": {
+          "type": "string",
+          "description": "Original file name"
+        },
+        "fileType": {
+          "type": "string",
+          "description": "MIME type of the file",
+          "examples": ["application/pdf", "image/jpeg", "text/csv"]
+        },
+        "fileSize": {
+          "type": "integer",
+          "description": "File size in bytes",
+          "minimum": 0
+        },
+        "storageLocation": {
+          "type": "string",
+          "description": "URI or path to the stored file",
+          "format": "uri"
+        },
+        "checksum": {
+          "type": "string",
+          "description": "SHA-256 checksum of the file for integrity verification",
+          "pattern": "^[a-fA-F0-9]{64}$"
+        }
+      }
+    },
+    "verificationStatus": {
+      "type": "string",
+      "description": "Verification status of the evidence",
+      "enum": ["Pending", "Verified", "Rejected", "Under Review"],
+      "default": "Pending"
+    },
+    "verifiedBy": {
+      "type": "string",
+      "description": "Person or system that verified the evidence"
+    },
+    "verifiedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the evidence was verified"
+    },
+    "confidentialityLevel": {
+      "type": "string",
+      "description": "Confidentiality classification of the evidence",
+      "enum": ["Public", "Internal", "Confidential", "Restricted"],
+      "default": "Internal"
+    },
+    "retentionPeriod": {
+      "type": "object",
+      "description": "Data retention requirements",
+      "properties": {
+        "years": {
+          "type": "integer",
+          "description": "Number of years to retain the evidence",
+          "minimum": 1,
+          "examples": [7]
+        },
+        "reason": {
+          "type": "string",
+          "description": "Legal or regulatory reason for retention",
+          "examples": ["Regulatory requirement", "Audit trail"]
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags for categorization and search",
+      "items": {
+        "type": "string"
+      },
+      "examples": [["carbon", "scope1", "2024"]]
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes or context",
+      "maxLength": 2000
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata about the evidence",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the evidence record was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the evidence record was last updated"
+        },
+        "version": {
+          "type": "integer",
+          "description": "Version number of the evidence record",
+          "minimum": 1
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
