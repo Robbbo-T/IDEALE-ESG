@@ -1,0 +1,299 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ideale-esg.org/schemas/esg/Report.v1.json",
+  "title": "ESG Report",
+  "description": "Schema for ESG reports and disclosures - versioned contract for comprehensive reporting",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "reportType",
+    "reportingPeriod",
+    "companyId",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the report",
+      "pattern": "^[a-zA-Z0-9-_]+$",
+      "examples": ["report-annual-2024", "csrd-disclosure-001"]
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the report",
+      "minLength": 1,
+      "maxLength": 500,
+      "examples": ["Annual ESG Report 2024", "CSRD Sustainability Statement"]
+    },
+    "reportType": {
+      "type": "string",
+      "description": "Type of ESG report",
+      "enum": [
+        "Annual ESG Report",
+        "Sustainability Report",
+        "CSRD Disclosure",
+        "GRI Report",
+        "SASB Report",
+        "TCFD Report",
+        "CDP Response",
+        "Integrated Report",
+        "Custom"
+      ],
+      "examples": ["Annual ESG Report"]
+    },
+    "framework": {
+      "type": "array",
+      "description": "ESG reporting frameworks used",
+      "items": {
+        "type": "string",
+        "enum": ["GRI", "SASB", "CSRD", "TCFD", "CDP", "IIRC", "UN SDG", "Custom"]
+      },
+      "minItems": 1,
+      "examples": [["GRI", "CSRD"]]
+    },
+    "reportingPeriod": {
+      "type": "object",
+      "description": "Time period covered by the report",
+      "required": ["startDate", "endDate"],
+      "properties": {
+        "startDate": {
+          "type": "string",
+          "format": "date",
+          "description": "Start date of the reporting period (ISO 8601)",
+          "examples": ["2024-01-01"]
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date",
+          "description": "End date of the reporting period (ISO 8601)",
+          "examples": ["2024-12-31"]
+        },
+        "fiscalYear": {
+          "type": "integer",
+          "description": "Fiscal year",
+          "minimum": 2000,
+          "maximum": 2100,
+          "examples": [2024]
+        }
+      }
+    },
+    "companyId": {
+      "type": "string",
+      "description": "Reference to the company or entity ID",
+      "pattern": "^[a-zA-Z0-9-_]+$",
+      "examples": ["company-001"]
+    },
+    "companyName": {
+      "type": "string",
+      "description": "Name of the reporting company",
+      "maxLength": 255
+    },
+    "status": {
+      "type": "string",
+      "description": "Current status of the report",
+      "enum": ["Draft", "Under Review", "Approved", "Published", "Archived"],
+      "examples": ["Draft"]
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the report",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "examples": ["1.0.0"]
+    },
+    "kpis": {
+      "type": "array",
+      "description": "List of KPI IDs included in the report",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9-_]+$"
+      },
+      "examples": [["kpi-ghg-scope1-2024-q1", "kpi-water-intensity-001"]]
+    },
+    "evidence": {
+      "type": "array",
+      "description": "List of evidence IDs supporting the report",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-zA-Z0-9-_]+$"
+      },
+      "examples": [["evidence-001", "audit-report-2024-q1"]]
+    },
+    "sections": {
+      "type": "array",
+      "description": "Report sections or chapters",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "order"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Section identifier"
+          },
+          "title": {
+            "type": "string",
+            "description": "Section title"
+          },
+          "order": {
+            "type": "integer",
+            "description": "Display order of the section",
+            "minimum": 1
+          },
+          "content": {
+            "type": "string",
+            "description": "Section content or narrative"
+          },
+          "kpis": {
+            "type": "array",
+            "description": "KPIs referenced in this section",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "assurance": {
+      "type": "object",
+      "description": "External assurance information",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "description": "Name of the assurance provider"
+        },
+        "level": {
+          "type": "string",
+          "description": "Level of assurance obtained",
+          "enum": ["None", "Limited", "Reasonable"]
+        },
+        "scope": {
+          "type": "string",
+          "description": "Scope of the assurance"
+        },
+        "statementUri": {
+          "type": "string",
+          "description": "URI to the assurance statement",
+          "format": "uri"
+        },
+        "completedAt": {
+          "type": "string",
+          "format": "date",
+          "description": "Date when assurance was completed"
+        }
+      }
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the report was published"
+    },
+    "publishedBy": {
+      "type": "string",
+      "description": "Person or system that published the report"
+    },
+    "language": {
+      "type": "string",
+      "description": "Primary language of the report (ISO 639-1 code)",
+      "pattern": "^[a-z]{2}$",
+      "examples": ["en", "de", "fr"]
+    },
+    "translations": {
+      "type": "array",
+      "description": "Available translations of the report",
+      "items": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "description": "Language code (ISO 639-1)",
+            "pattern": "^[a-z]{2}$"
+          },
+          "reportId": {
+            "type": "string",
+            "description": "ID of the translated report"
+          }
+        }
+      }
+    },
+    "documentReference": {
+      "type": "object",
+      "description": "Reference to the published document",
+      "properties": {
+        "fileName": {
+          "type": "string",
+          "description": "Published file name"
+        },
+        "fileType": {
+          "type": "string",
+          "description": "MIME type of the published document",
+          "examples": ["application/pdf", "text/html"]
+        },
+        "storageLocation": {
+          "type": "string",
+          "description": "URI or path to the published document",
+          "format": "uri"
+        }
+      }
+    },
+    "contacts": {
+      "type": "array",
+      "description": "Contact information for inquiries",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Contact name"
+          },
+          "role": {
+            "type": "string",
+            "description": "Contact role or title"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Contact email address"
+          }
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags for categorization and search",
+      "items": {
+        "type": "string"
+      },
+      "examples": [["annual", "2024", "verified"]]
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata about the report",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the report was created"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the report was last updated"
+        },
+        "createdBy": {
+          "type": "string",
+          "description": "User or system that created the report"
+        },
+        "approvedBy": {
+          "type": "string",
+          "description": "Person who approved the report"
+        },
+        "approvedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the report was approved"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}
